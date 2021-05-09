@@ -48,13 +48,19 @@ personaSuertuda :: Persona -> Bool
 personaSuertuda = even . (* 3) . coeficienteSatisfaccion
 
 -- Punto c: Nombre lindo
-personaSuertuda :: Persona -> Bool
+nombreLindo :: Persona -> Bool
 nombreLindo = (== 'a') . last . nombrePersona
 
 -- Punto 3
-agregarFelicidonios (_, _, _, felicidonios, _) cantidad = (_, _, _, felicidonios + cantidad, _)
+agregarFelicidonios :: Persona -> Felicidonios -> Persona
+agregarFelicidonios (edad, cantidadSuenios, nombre, felicidonios, habilidades) cantidad =
+	(edad, cantidadSuenios, nombre, felicidonios + cantidad, habilidades)
 
-recibirseDeCarrera :: Persona -> String -> Persona
+envejecer :: Persona -> Edad -> Persona
+envejecer (edad, cantidadSuenios, nombre, felicidonios, habilidades) anios = 
+	(edad + anios, cantidadSuenios, nombre, felicidonios, habilidades)
+
+recibirseDeCarrera :: Persona -> [Habilidad] -> Persona
 recibirseDeCarrera (edad, cantidadSuenios, nombre, felicidonios, habilidades) carrera =
 	(edad, cantidadSuenios, nombre, felicidonios + (length carrera) * 1000, habilidades ++ carrera)
 
