@@ -11,6 +11,19 @@ type Habilidades = [Habilidad]
 
 type Persona = (Edad, CantidadSuenios, Nombre, Felicidonios, Habilidades)
 
+--Casos de prueba
+evangelina :: Persona
+evangelina = (25, 2, "Evangelina", 101, ["Pintura"])
+
+maximiliano :: Persona
+maximiliano = (26, 2, "Maximiliano", 100, ["Ser buena persona"])
+
+ariel :: Persona
+ariel = (30, 1, "Ariel", 50, ["Decir palíndromos"])
+
+melina :: Persona
+melina = (17, 1, "Melina", 12, ["Levantar una ceja"])
+
 -- Punto 1
 -- Punto a: Coeficiente de satisfaccion
 coeficienteSatisfaccion :: Persona -> Int
@@ -52,6 +65,7 @@ nombreLindo :: Persona -> Bool
 nombreLindo = (== 'a') . last . nombrePersona
 
 -- Punto 3
+<<<<<<< HEAD
 agregarFelicidonios :: Persona -> Felicidonios -> Persona
 agregarFelicidonios (edad, cantidadSuenios, nombre, felicidonios, habilidades) cantidad =
 	(edad, cantidadSuenios, nombre, felicidonios + cantidad, habilidades)
@@ -59,18 +73,24 @@ agregarFelicidonios (edad, cantidadSuenios, nombre, felicidonios, habilidades) c
 envejecer :: Persona -> Edad -> Persona
 envejecer (edad, cantidadSuenios, nombre, felicidonios, habilidades) anios = 
 	(edad + anios, cantidadSuenios, nombre, felicidonios, habilidades)
+=======
+agregarFelicidonios :: Persona -> Int -> Persona
+agregarFelicidonios (edad, cantidadSuenios, nombre, felicidonios, habilidades) cantidad =
+	(edad, cantidadSuenios, nombre, felicidonios + cantidad, habilidades)
+--agregarFelicidonios (_, _, _, felicidonios, _) cantidad = (_, _, _, felicidonios + cantidad, _)
+>>>>>>> 62d17ccba88deb0bfb4d8364374b91a939197564
 
 recibirseDeCarrera :: Persona -> [Habilidad] -> Persona
 recibirseDeCarrera (edad, cantidadSuenios, nombre, felicidonios, habilidades) carrera =
-	(edad, cantidadSuenios, nombre, felicidonios + (length carrera) * 1000, habilidades ++ carrera)
+	(edad, cantidadSuenios, nombre, felicidonios + (length carrera) * 1000, (:) carrera habilidades)
 
-viajarAListaDeCiudades :: Persona -> String -> Persona
-viajarAListaDeCiudades (edad, cantidadSuenios, nombre, felicidonios, habilidades) [ciudades] =
+viajarAListaDeCiudades :: Persona -> [String] -> Persona
+viajarAListaDeCiudades (edad, cantidadSuenios, nombre, felicidonios, habilidades) ciudades =
 	(edad + 1, cantidadSuenios, nombre, felicidonios + (length ciudades) * 100, habilidades)
 
 enamorarseDeOtraPersona :: Persona -> Persona -> Persona
 enamorarseDeOtraPersona (edad, cantidadSuenios, nombre, felicidonios, habilidades) otraPersona =
-	 (edad, cantidadSuenios, nombre, felicidonios + felicidoniosPersona otraPersona, habilidades)
+	(edad, cantidadSuenios, nombre, felicidonios + felicidoniosPersona otraPersona, habilidades)
 
 queTodoSigaIgual :: Persona -> Persona
 queTodoSigaIgual = id
