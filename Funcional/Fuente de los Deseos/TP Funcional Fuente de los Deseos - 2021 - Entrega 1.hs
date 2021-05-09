@@ -66,7 +66,6 @@ agregarFelidonicios numero persona =
     edad persona,
     suenos persona,
     (felidocinios persona) + numero,
-    --((+numero) . felidocinios) persona,
     habilidades persona)
 
 agregarHabilidad :: String -> Persona -> Persona
@@ -81,7 +80,6 @@ envejecer :: Persona -> Persona
 envejecer persona =
     (nombre persona,
     (edad persona) + 1,
-    --((+1) . edad) persona,
     suenos persona,
     felidocinios persona,
     habilidades persona)
@@ -98,7 +96,7 @@ enamorarse :: Persona -> Persona -> Persona
 enamorarse persona1 persona2 = agregarFelidonicios (felidocinios persona2) persona1
 
 queTodoSigaIgual :: Persona -> Persona
-queTodoSigaIgual persona = persona
+queTodoSigaIgual = id
 
 comboPerfecto :: Persona -> Persona
 comboPerfecto = (recibirseDeUnaCarrera "Medicina")
