@@ -28,9 +28,9 @@ melina = (17, 1, "Melina", 12, ["Levantar una ceja"])
 -- Punto a: Coeficiente de satisfaccion
 coeficienteSatisfaccion :: Persona -> Int
 coeficienteSatisfaccion unaPersona
-	| felicidoniosPersona unaPersona > 100 = (felicidoniosPersona unaPersona) * (edadPersona unaPersona)
-	| (felicidoniosPersona unaPersona <= 100) && (felicidoniosPersona unaPersona > 50) = (cantidadSuenosPersona unaPersona) * (felicidoniosPersona unaPersona)
-	| otherwise = div (felicidoniosPersona unaPersona) 2
+  | felicidoniosPersona unaPersona > 100 = (felicidoniosPersona unaPersona) * (edadPersona unaPersona)
+  | (felicidoniosPersona unaPersona <= 100) && (felicidoniosPersona unaPersona > 50) = (cantidadSuenosPersona unaPersona) * (felicidoniosPersona unaPersona)
+  | otherwise = div (felicidoniosPersona unaPersona) 2
 
 felicidoniosPersona :: Persona -> Felicidonios
 felicidoniosPersona (_, _, _, felicidonios, _) = felicidonios
@@ -44,9 +44,9 @@ cantidadSuenosPersona (_, cantidadSuenios, _, _, _) = cantidadSuenios
 -- Punto b: Grado de ambicion de una persona
 gradoAmbicion :: Persona -> Int
 gradoAmbicion unaPersona
-	| felicidoniosPersona unaPersona > 100 = (felicidoniosPersona unaPersona) * (cantidadSuenosPersona unaPersona)
-	| (felicidoniosPersona unaPersona <= 100) && (felicidoniosPersona unaPersona > 50) = (edadPersona unaPersona) * (cantidadSuenosPersona unaPersona)
-	| otherwise = (cantidadSuenosPersona unaPersona) * 2
+  | felicidoniosPersona unaPersona > 100 = (felicidoniosPersona unaPersona) * (cantidadSuenosPersona unaPersona)
+  | (felicidoniosPersona unaPersona <= 100) && (felicidoniosPersona unaPersona > 50) = (edadPersona unaPersona) * (cantidadSuenosPersona unaPersona)
+  | otherwise = (cantidadSuenosPersona unaPersona) * 2
 
 -- Punto 2
 -- Punto a: Nombre largo
@@ -65,32 +65,25 @@ nombreLindo :: Persona -> Bool
 nombreLindo = (== 'a') . last . nombrePersona
 
 -- Punto 3
-<<<<<<< HEAD
 agregarFelicidonios :: Persona -> Felicidonios -> Persona
 agregarFelicidonios (edad, cantidadSuenios, nombre, felicidonios, habilidades) cantidad =
-	(edad, cantidadSuenios, nombre, felicidonios + cantidad, habilidades)
+  (edad, cantidadSuenios, nombre, felicidonios + cantidad, habilidades)
 
 envejecer :: Persona -> Edad -> Persona
 envejecer (edad, cantidadSuenios, nombre, felicidonios, habilidades) anios = 
-	(edad + anios, cantidadSuenios, nombre, felicidonios, habilidades)
-=======
-agregarFelicidonios :: Persona -> Int -> Persona
-agregarFelicidonios (edad, cantidadSuenios, nombre, felicidonios, habilidades) cantidad =
-	(edad, cantidadSuenios, nombre, felicidonios + cantidad, habilidades)
---agregarFelicidonios (_, _, _, felicidonios, _) cantidad = (_, _, _, felicidonios + cantidad, _)
->>>>>>> 62d17ccba88deb0bfb4d8364374b91a939197564
+  (edad + anios, cantidadSuenios, nombre, felicidonios, habilidades)
 
-recibirseDeCarrera :: Persona -> [Habilidad] -> Persona
+recibirseDeCarrera :: Persona -> Habilidad -> Persona
 recibirseDeCarrera (edad, cantidadSuenios, nombre, felicidonios, habilidades) carrera =
-	(edad, cantidadSuenios, nombre, felicidonios + (length carrera) * 1000, (:) carrera habilidades)
+  (edad, cantidadSuenios, nombre, felicidonios + (length carrera) * 1000, (:) carrera habilidades)
 
 viajarAListaDeCiudades :: Persona -> [String] -> Persona
 viajarAListaDeCiudades (edad, cantidadSuenios, nombre, felicidonios, habilidades) ciudades =
-	(edad + 1, cantidadSuenios, nombre, felicidonios + (length ciudades) * 100, habilidades)
+  (edad + 1, cantidadSuenios, nombre, felicidonios + (length ciudades) * 100, habilidades)
 
 enamorarseDeOtraPersona :: Persona -> Persona -> Persona
 enamorarseDeOtraPersona (edad, cantidadSuenios, nombre, felicidonios, habilidades) otraPersona =
-	(edad, cantidadSuenios, nombre, felicidonios + felicidoniosPersona otraPersona, habilidades)
+  (edad, cantidadSuenios, nombre, felicidonios + felicidoniosPersona otraPersona, habilidades)
 
 queTodoSigaIgual :: Persona -> Persona
 queTodoSigaIgual = id
