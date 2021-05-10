@@ -2,26 +2,26 @@
 type Nombre = String
 type Edad = Int
 type CantidadDeSuenos = Int
-type Felidocinios = Int
+type Felicidonios = Int
 type Habilidades = [String]
 
-type Persona = (Nombre, Edad, CantidadDeSuenos, Felidocinios, Habilidades)
+type Persona = (Nombre, Edad, CantidadDeSuenos, Felicidonios, Habilidades)
 
 --Funciones de desempaquetado
 nombre :: Persona -> Nombre
-nombre (nombre, _, _, _, _) = nombre
+nombre (nombrePersona, _, _, _, _) = nombrePersona
 
 edad :: Persona -> Edad
-edad (_, edad, _, _, _) = edad
+edad (_, edadPersona, _, _, _) = edadPersona
 
 suenos :: Persona -> CantidadDeSuenos
-suenos (_, _, suenos, _, _) = suenos
+suenos (_, _, suenosPersona, _, _) = suenosPersona
 
-felidocinios :: Persona -> Felidocinios
-felidocinios (_, _, _, felidocinios, _) = felidocinios
+felicidonios :: Persona -> Felicidonios
+felicidonios (_, _, _, felicidoniosPersona, _) = felicidoniosPersona
 
 habilidades  :: Persona -> Habilidades
-habilidades (_, _, _, _, habilidades) = habilidades
+habilidades (_, _, _, _, habilidadesPersona) = habilidadesPersona
 
 --Casos de prueba
 evangelina :: Persona
@@ -39,15 +39,15 @@ melina = ("Melina", 17, 1, 12, ["Levantar una ceja"])
 --Punto 1
 coeficienteDeSatisfaccion :: Persona -> Int
 coeficienteDeSatisfaccion persona
-    | (felidocinios persona) > 100 = (*) (felidocinios persona) (edad persona)
-    | (felidocinios persona) > 50  = (*) (felidocinios persona) (suenos persona)
-    | otherwise = div (felidocinios persona) 2
+    | (felicidonios persona) > 100 = (felicidonios persona) * (edad persona)
+    | (felicidonios persona) > 50  = (felicidonios persona) * (suenos persona)
+    | otherwise = div (felicidonios persona) 2
 
 gradoDeAmbicion :: Persona -> Int
 gradoDeAmbicion persona
-    | (felidocinios persona) > 100 = (*) (suenos persona) (felidocinios persona)
-    | (felidocinios persona) > 50  = (*) (suenos persona) (edad persona)
-    | otherwise = (*) (suenos persona) 2
+    | (felicidonios persona) > 100 = (suenos persona) * (felicidonios persona)
+    | (felicidonios persona) > 50  = (suenos persona) * (edad persona)
+    | otherwise = (suenos persona) * 2
 
 --Punto 2
 nombreLargo :: Persona -> Bool
@@ -59,13 +59,13 @@ suertuda = even . (*3) . coeficienteDeSatisfaccion
 nombreLindo :: Persona -> Bool
 nombreLindo = (== 'a') . last . nombre
 
---Punto 3
+--Funciones auxiliares punto 3
 agregarFelidonicios :: Int -> Persona -> Persona
 agregarFelidonicios numero persona =
     (nombre persona,
     edad persona,
     suenos persona,
-    (felidocinios persona) + numero,
+    (felicidonios persona) + numero,
     habilidades persona)
 
 agregarHabilidad :: String -> Persona -> Persona
@@ -73,17 +73,18 @@ agregarHabilidad habilidad persona =
     (nombre persona,
     edad persona,
     suenos persona,
-    felidocinios persona,
-    (:) habilidad (habilidades persona))
+    felicidonios persona,
+    habilidad : (habilidades persona))
 
 envejecer :: Persona -> Persona
 envejecer persona =
     (nombre persona,
     (edad persona) + 1,
     suenos persona,
-    felidocinios persona,
+    felicidonios persona,
     habilidades persona)
 
+--Punto 3
 recibirseDeUnaCarrera :: String -> Persona -> Persona
 recibirseDeUnaCarrera carrera = (agregarHabilidad carrera)
     . (agregarFelidonicios . (*1000) . length) carrera
@@ -93,7 +94,7 @@ viajar ciudades = envejecer
     . (agregarFelidonicios . (*100) . length) ciudades
 
 enamorarse :: Persona -> Persona -> Persona
-enamorarse persona1 persona2 = agregarFelidonicios (felidocinios persona2) persona1
+enamorarse persona1 persona2 = agregarFelidonicios (felicidonios persona2) persona1
 
 queTodoSigaIgual :: Persona -> Persona
 queTodoSigaIgual = id
