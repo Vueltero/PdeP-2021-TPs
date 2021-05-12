@@ -1,8 +1,8 @@
 --Dominio
 type Nombre = String
-type Edad = Integer
-type CantidadDeSuenios = Integer
-type Felicidonios = Integer
+type Edad = Int
+type CantidadDeSuenios = Int
+type Felicidonios = Int
 type Habilidades = [String]
 type Persona = (Nombre, Edad, CantidadDeSuenios, Felicidonios, Habilidades)
 --Funciones de desempaquetado
@@ -30,15 +30,15 @@ tomas=("Tomas",19,3,12,["Ser buena persona"])
 --Punto 1a
 coeficienteDeSatisfaccion :: Persona -> Int
 coeficienteDeSatisfaccion persona
-    │(felicidonios persona)>100=(felicidonios persona)*(edad persona) 
-    │(felicidonios persona)<=100 && (felicidonios persona)>50=(felicidonios persona)*(cantidadDeSuenios persona)
-    │otherwise=div (felicidonios persona) 2
+    |(felicidonios persona)>100=(felicidonios persona)*(edad persona) 
+    |(felicidonios persona)<=100 && (felicidonios persona)>50=(felicidonios persona)*(cantidadDeSuenios persona)
+    |otherwise=div (felicidonios persona) 2
 --Punto 1b
 gradoDeAmbicion :: Persona -> Int
 gradoDeAmbicion persona
-    │(felicidonios persona)>100=(felicidonios persona)*(cantidadDeSuenios persona) 
-    │(felicidonios persona)<=100 && (felicidonios persona)>50=(edad persona)*(cantidadDeSuenios persona)
-    │otherwise=(cantidadDeSuenios persona)*2
+    |(felicidonios persona)>100=(felicidonios persona)*(cantidadDeSuenios persona) 
+    |(felicidonios persona)<=100 && (felicidonios persona)>50=(edad persona)*(cantidadDeSuenios persona)
+    |otherwise=(cantidadDeSuenios persona)*2
 --Punto 2a
 nombreLargo :: Persona -> Bool
 nombreLargo=(>10).length.nombre
@@ -53,14 +53,14 @@ nombreLindo=(=='a').last.nombre
 agregarFelicidonios :: Int -> Persona -> Persona
 agregarFelicidonios numero persona=(nombre persona, edad persona, cantidadDeSuenios persona, (felicidonios persona)+numero, habilidades persona)
 agregarHabilidad :: String -> Persona -> Persona
-agregarHabilidad carrera persona=(nombre persona, edad persona, cantidadDeSuenios persona, felicidonios persona, (habilidades persona)++", "++carrera)
+agregarHabilidad carrera persona=(nombre persona, edad persona, cantidadDeSuenios persona, felicidonios persona, carrera : (habilidades persona))
 envejecer :: Persona -> Persona
 envejecer persona=(nombre persona, (edad persona)+1, cantidadDeSuenios persona, felicidonios persona, habilidades persona)
 --Resolusión
-recibirseDeUnaCarrera :: Persona-> String -> Persona
-recibirseDeUnaCarrera persona carrera=(agregarHabilidad carrera).(agregarFelicidonios.(*1000).length)carrera
+recibirseDeUnaCarrera :: String -> Persona -> Persona
+recibirseDeUnaCarrera carrera=(agregarHabilidad carrera).(agregarFelicidonios.(*1000).length)carrera
 viajarListaDeCiudades :: [String]-> Persona ->Persona
-viajarListaDeCiudades ciudades persona= (envejecer persona).(agregarFelicidonios.(*100).length)ciudades
+viajarListaDeCiudades ciudades = (envejecer).(agregarFelicidonios.(*100).length)ciudades
 enamorarseDeOtraPersona :: Persona -> Persona -> Persona
 enamorarseDeOtraPersona personaEnamorada personaX=(nombre personaEnamorada, edad personaEnamorada, cantidadDeSuenios personaEnamorada, (felicidonios personaEnamorada)+(felicidonios personaX), habilidades personaEnamorada)
 queTodoSigaIgual :: Persona -> Persona

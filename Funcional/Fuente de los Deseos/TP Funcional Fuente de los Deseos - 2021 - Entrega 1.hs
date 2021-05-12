@@ -60,7 +60,7 @@ nombreLindo :: Persona -> Bool
 nombreLindo = (=='a') . last . nombre
 
 --Funciones auxiliares punto 3
-agregarFelicidonios :: Int -> Persona -> Persona
+agregarFelicidonios :: Felicidonios -> Persona -> Persona
 agregarFelicidonios numero persona =
     (nombre persona,
     edad persona,
