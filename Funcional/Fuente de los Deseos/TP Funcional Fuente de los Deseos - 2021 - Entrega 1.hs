@@ -7,7 +7,7 @@ type Habilidades = [String]
 
 type Persona = (Nombre, Edad, CantidadDeSuenos, Felicidonios, Habilidades)
 
---Funciones de desempaquetado
+--Funciones accessor
 nombre :: Persona -> Nombre
 nombre (nombrePersona, _, _, _, _) = nombrePersona
 
@@ -34,7 +34,10 @@ ariel :: Persona
 ariel = ("Ariel", 30, 1, 50, ["Decir palíndromos"])
 
 melina :: Persona
-melina = ("Melina", 17, 1, 12, ["Levantar una ceja"])
+melina = ("Melina", 17, 1, 14, ["Levantar una ceja"])
+
+tomas :: Persona
+tomas = ("Tomas", 19, 3, 12, ["Natación"])
 
 --Punto 1
 coeficienteDeSatisfaccion :: Persona -> Int
