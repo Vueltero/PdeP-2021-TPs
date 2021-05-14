@@ -1,11 +1,11 @@
 --Dominio
 type Nombre = String
 type Edad = Int
-type CantidadDeSuenos = Int
+type CantidadDeSueños = Int
 type Felicidonios = Int
 type Habilidades = [String]
 
-type Persona = (Nombre, Edad, CantidadDeSuenos, Felicidonios, Habilidades)
+type Persona = (Nombre, Edad, CantidadDeSueños, Felicidonios, Habilidades)
 
 --Funciones accessor
 nombre :: Persona -> Nombre
@@ -14,8 +14,8 @@ nombre (nombrePersona, _, _, _, _) = nombrePersona
 edad :: Persona -> Edad
 edad (_, edadPersona, _, _, _) = edadPersona
 
-suenos :: Persona -> CantidadDeSuenos
-suenos (_, _, suenosPersona, _, _) = suenosPersona
+sueños :: Persona -> CantidadDeSueños
+sueños (_, _, sueñosPersona, _, _) = sueñosPersona
 
 felicidonios :: Persona -> Felicidonios
 felicidonios (_, _, _, felicidoniosPersona, _) = felicidoniosPersona
@@ -43,14 +43,14 @@ tomas = ("Tomas", 19, 3, 12, ["Natación"])
 coeficienteDeSatisfaccion :: Persona -> Int
 coeficienteDeSatisfaccion persona
     | felicidonios persona > 100 = felicidonios persona * edad persona
-    | felicidonios persona > 50  = felicidonios persona * suenos persona
+    | felicidonios persona > 50  = felicidonios persona * sueños persona
     | otherwise = div (felicidonios persona) 2
 
 gradoDeAmbicion :: Persona -> Int
 gradoDeAmbicion persona
-    | felicidonios persona > 100 = suenos persona * felicidonios persona
-    | felicidonios persona > 50  = suenos persona * edad persona
-    | otherwise = suenos persona * 2
+    | felicidonios persona > 100 = sueños persona * felicidonios persona
+    | felicidonios persona > 50  = sueños persona * edad persona
+    | otherwise = sueños persona * 2
 
 --Punto 2
 nombreLargo :: Persona -> Bool
@@ -64,28 +64,31 @@ nombreLindo = (=='a') . last . nombre
 
 --Funciones auxiliares punto 3
 agregarFelicidonios :: Felicidonios -> Persona -> Persona
-agregarFelicidonios numero persona =
-    (nombre persona,
+agregarFelicidonios numero persona = (
+    nombre persona,
     edad persona,
-    suenos persona,
+    sueños persona,
     felicidonios persona + numero,
-    habilidades persona)
+    habilidades persona
+    )
 
 agregarHabilidad :: String -> Persona -> Persona
-agregarHabilidad habilidad persona =
-    (nombre persona,
+agregarHabilidad habilidad persona = (
+    nombre persona,
     edad persona,
-    suenos persona,
+    sueños persona,
     felicidonios persona,
-    habilidad : habilidades persona)
+    habilidad : habilidades persona
+    )
 
 envejecer :: Persona -> Persona
-envejecer persona =
-    (nombre persona,
+envejecer persona = (
+    nombre persona,
     edad persona + 1,
-    suenos persona,
+    sueños persona,
     felicidonios persona,
-    habilidades persona)
+    habilidades persona
+    )
 
 --Punto 3
 recibirseDeUnaCarrera :: String -> Persona -> Persona
