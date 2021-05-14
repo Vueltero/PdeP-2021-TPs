@@ -24,19 +24,19 @@ habilidades (_,_,_,_,habilidadesPersona)= habilidadesPersona
 -----------------------------------------------Casos de prueba--------------------------------------------------
 
 evangelina:: Persona
-evangelina = (25,2,"Evangelina",101,["Comer", "Planchar"])
+evangelina = (25,2,"Evangelina",101,["Pintura"])
 
 maximiliano::Persona
-maximiliano = (26,2,"Maximiliano",100,["Atender","Jugar"])
+maximiliano = (26,2,"Maximiliano",100,["Ser buena persona"])
 
 jorge::Persona
-jorge = (20,1,"Jorge Rial",50,["Hablar","Jugar"])
+jorge = (20,1,"Jorge Rial",50,["Decir palindromos"])
 
 ariel::Persona
 ariel = (24,3,"Ariel",14,["Leer","Mirar TV"])
 
 melina::Persona
-melina = (26,2,"Melina",12,["cambiar de ropa","Mirar TV"])
+melina = (26,2,"Melina",12,["Jugar al futbol","Hablar"])
 
 -------------------------------------------------(Punto 1)----------------------------------------------------
 --(a)
@@ -82,7 +82,7 @@ agregarAño:: Persona -> Persona
 agregarAño persona = (edad persona + 1, cantidadDeSueños persona,
  nombre persona, felicidonios persona, habilidades persona)
 
----
+---(principales)
 recibirseDeUnaCarrera:: String -> Persona -> Persona
 recibirseDeUnaCarrera carrera = agregarHabilidad carrera. agregarFelicidonios( length carrera *1000)
 
@@ -90,7 +90,7 @@ viajarACiudades:: [String] -> Persona -> Persona
 viajarACiudades ciudades = agregarAño.agregarFelicidonios(length ciudades * 100)
 
 enamorarseDePersona:: Persona -> Persona -> Persona
-enamorarseDePersona persona2 = agregarFelicidonios(felicidonios persona2) 
+enamorarseDePersona  = flip(agregarFelicidonios.felicidonios) 
 
 todoSigueIgual::Persona -> Persona
 todoSigueIgual persona = persona
