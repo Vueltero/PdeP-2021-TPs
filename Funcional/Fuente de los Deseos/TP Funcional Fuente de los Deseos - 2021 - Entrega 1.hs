@@ -1,13 +1,12 @@
---Dominio
+---------------------------------------------------Dominio--------------------------------------------------
 type Nombre = String
 type Edad = Int
 type CantidadDeSueños = Int
 type Felicidonios = Int
 type Habilidades = [String]
-
 type Persona = (Nombre, Edad, CantidadDeSueños, Felicidonios, Habilidades)
 
---Funciones accessor
+----------------------------------------------Funciones accesor--------------------------------------------------
 nombre :: Persona -> Nombre
 nombre (nombrePersona, _, _, _, _) = nombrePersona
 
@@ -23,7 +22,7 @@ felicidonios (_, _, _, felicidoniosPersona, _) = felicidoniosPersona
 habilidades  :: Persona -> Habilidades
 habilidades (_, _, _, _, habilidadesPersona) = habilidadesPersona
 
---Casos de prueba
+---------------------------------------------Casos de prueba--------------------------------------------------
 evangelina :: Persona
 evangelina = ("Evangelina", 25, 2, 101, ["Pintura"])
 
@@ -39,30 +38,36 @@ melina = ("Melina", 17, 1, 14, ["Levantar una ceja"])
 tomas :: Persona
 tomas = ("Tomas", 19, 3, 12, ["Natación"])
 
---Punto 1
+-----------------------------------------------(Punto 1)----------------------------------------------------
+--(a)
 coeficienteDeSatisfaccion :: Persona -> Int
 coeficienteDeSatisfaccion persona
     | felicidonios persona > 100 = felicidonios persona * edad persona
     | felicidonios persona > 50  = felicidonios persona * sueños persona
     | otherwise = div (felicidonios persona) 2
 
+--(b)
 gradoDeAmbicion :: Persona -> Int
 gradoDeAmbicion persona
     | felicidonios persona > 100 = sueños persona * felicidonios persona
     | felicidonios persona > 50  = sueños persona * edad persona
     | otherwise = sueños persona * 2
 
---Punto 2
+-----------------------------------------------(Punto 2)----------------------------------------------------
+--(a)
 nombreLargo :: Persona -> Bool
 nombreLargo = (>10) . length . nombre
 
-suertuda :: Persona -> Bool
-suertuda = even . (*3) . coeficienteDeSatisfaccion
+--(b)
+esPersonaSuertuda :: Persona -> Bool
+esPersonaSuertuda = even . (*3) . coeficienteDeSatisfaccion
 
-nombreLindo :: Persona -> Bool
-nombreLindo = (=='a') . last . nombre
+--(c)
+esNombreLindo :: Persona -> Bool
+esNombreLindo = (=='a') . last . nombre
 
---Funciones auxiliares punto 3
+-----------------------------------------------(Punto 3)----------------------------------------------------
+--Funciones Auxiliares
 agregarFelicidonios :: Felicidonios -> Persona -> Persona
 agregarFelicidonios numero persona = (
     nombre persona,
@@ -90,22 +95,22 @@ envejecer persona = (
     habilidades persona
     )
 
---Punto 3
+--Funciones Principales
 recibirseDeUnaCarrera :: String -> Persona -> Persona
 recibirseDeUnaCarrera carrera = agregarHabilidad carrera
     . agregarFelicidonios (length carrera * 1000)
 
-viajar :: [String] -> Persona -> Persona
-viajar ciudades = envejecer
+viajarACiudades :: [String] -> Persona -> Persona
+viajarACiudades ciudades = envejecer
     . agregarFelicidonios (length ciudades * 100)
 
-enamorarse :: Persona -> Persona -> Persona
-enamorarse = flip (agregarFelicidonios . felicidonios)
+enamorarseDePersona :: Persona -> Persona -> Persona
+enamorarseDePersona = flip (agregarFelicidonios . felicidonios)
 
 queTodoSigaIgual :: Persona -> Persona
 queTodoSigaIgual = id
 
 comboPerfecto :: Persona -> Persona
 comboPerfecto = recibirseDeUnaCarrera "Medicina"
-    . viajar ["Berazategui", "París"]
+    . viajarACiudades ["Berazategui", "París"]
     . agregarFelicidonios 100
