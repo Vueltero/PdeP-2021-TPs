@@ -6,7 +6,7 @@ type Felicidonios = Int
 type Habilidades = [String]
 type Persona = (Nombre, Edad, CantidadDeSueños, Felicidonios, Habilidades)
 
-----------------------------------------------Funciones accesor--------------------------------------------------
+----------------------------------------------Funciones accessor--------------------------------------------------
 nombre :: Persona -> Nombre
 nombre (nombrePersona, _, _, _, _) = nombrePersona
 
