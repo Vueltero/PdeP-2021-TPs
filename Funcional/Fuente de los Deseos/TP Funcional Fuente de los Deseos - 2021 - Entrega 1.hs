@@ -39,19 +39,28 @@ tomas :: Persona
 tomas = ("Tomas", 19, 3, 12, ["Natación"])
 
 -----------------------------------------------(Punto 1)----------------------------------------------------
+muyFeliz :: Persona -> Bool
+muyFeliz = (>100) . felicidonios
+
+moderadamenteFeliz :: Persona -> Bool
+moderadamenteFeliz = (>50) . felicidonios 
+
+pocoFeliz :: Persona -> Bool
+pocoFeliz = (>0) . felicidonios
+
+funcionAuxiliar :: (Persona -> Int) -> (Persona -> Int) -> (Persona -> Int) -> (Int -> Int -> Int) -> Persona -> Int
+funcionAuxiliar funcion1 funcion2 funcion3 funcion4 persona
+    | muyFeliz persona           = funcion1 persona * funcion2 persona
+    | moderadamenteFeliz persona = funcion1 persona * funcion3 persona
+    | pocoFeliz persona          = funcion4 (funcion1 persona) 2
+
 --(a)
 coeficienteDeSatisfaccion :: Persona -> Int
-coeficienteDeSatisfaccion persona
-    | felicidonios persona > 100 = felicidonios persona * edad persona
-    | felicidonios persona > 50  = felicidonios persona * sueños persona
-    | otherwise = div (felicidonios persona) 2
+coeficienteDeSatisfaccion = funcionAuxiliar felicidonios edad sueños div
 
 --(b)
 gradoDeAmbicion :: Persona -> Int
-gradoDeAmbicion persona
-    | felicidonios persona > 100 = sueños persona * felicidonios persona
-    | felicidonios persona > 50  = sueños persona * edad persona
-    | otherwise = sueños persona * 2
+gradoDeAmbicion = funcionAuxiliar sueños felicidonios edad (*)
 
 -----------------------------------------------(Punto 2)----------------------------------------------------
 --(a)
@@ -95,17 +104,19 @@ envejecer persona = (
     habilidades persona
     )
 
+sueño :: (Persona -> Persona) -> Int -> Persona -> Persona
+sueño funcion numero = funcion . agregarFelicidonios numero
+
 --Funciones Principales
 recibirseDeUnaCarrera :: String -> Persona -> Persona
-recibirseDeUnaCarrera carrera = agregarHabilidad carrera
-    . agregarFelicidonios (length carrera * 1000)
+recibirseDeUnaCarrera carrera = sueño (agregarHabilidad carrera) (length carrera * 1000)
 
 viajarACiudades :: [String] -> Persona -> Persona
-viajarACiudades ciudades = envejecer
-    . agregarFelicidonios (length ciudades * 100)
+viajarACiudades ciudades = sueño envejecer (length ciudades * 100)
 
 enamorarseDePersona :: Persona -> Persona -> Persona
-enamorarseDePersona = flip (agregarFelicidonios . felicidonios)
+enamorarseDePersona = flip (sueño id . felicidonios)
+--enamorarseDePersona enamorado persona = sueño id (felicidonios persona) enamorado
 
 queTodoSigaIgual :: Persona -> Persona
 queTodoSigaIgual = id
