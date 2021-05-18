@@ -57,10 +57,18 @@ funcionAuxiliar funcion1 funcion2 funcion3 funcion4 persona
 --(a)
 coeficienteDeSatisfaccion :: Persona -> Int
 coeficienteDeSatisfaccion = funcionAuxiliar felicidonios edad sueños div
+--coeficienteDeSatisfaccion persona
+--  | muyFeliz persona =           felicidonios persona * edad persona
+--  | moderadamenteFeliz persona = felicidonios persona * sueños persona
+--  | pocoFeliz persona =          div (felicidonios persona) 2
 
 --(b)
 gradoDeAmbicion :: Persona -> Int
 gradoDeAmbicion = funcionAuxiliar sueños felicidonios edad (*)
+--gradoDeAmbicion persona
+--  | muyFeliz persona =           sueños persona * felicidonios persona
+--  | moderadamenteFeliz persona = sueños persona * edad persona
+--  | pocoFeliz persona =          (*) (sueños persona) 2
 
 -----------------------------------------------(Punto 2)----------------------------------------------------
 --(a)
@@ -122,6 +130,6 @@ queTodoSigaIgual :: Persona -> Persona
 queTodoSigaIgual = id
 
 comboPerfecto :: Persona -> Persona
-comboPerfecto = recibirseDeUnaCarrera "Medicina"
-    . viajarACiudades ["Berazategui", "París"]
-    . agregarFelicidonios 100
+comboPerfecto = sueño
+    (recibirseDeUnaCarrera "Medicina" . viajarACiudades ["Berazategui", "París"])
+    100
