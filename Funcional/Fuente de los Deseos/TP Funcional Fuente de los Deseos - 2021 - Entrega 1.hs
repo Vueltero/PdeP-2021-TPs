@@ -1,42 +1,27 @@
 ---------------------------------------------------Dominio--------------------------------------------------
-type Nombre = String
-type Edad = Int
-type CantidadDeSueños = Int
-type Felicidonios = Int
-type Habilidades = [String]
-type Persona = (Nombre, Edad, CantidadDeSueños, Felicidonios, Habilidades)
+data Persona = Persona {
+    nombre :: String,
+    edad :: Int,
+    sueños :: Int,
+    felicidonios :: Int,
+    habilidades :: [String]
+} deriving Show
 
-----------------------------------------------Funciones accessor--------------------------------------------------
-nombre :: Persona -> Nombre
-nombre (nombrePersona, _, _, _, _) = nombrePersona
-
-edad :: Persona -> Edad
-edad (_, edadPersona, _, _, _) = edadPersona
-
-sueños :: Persona -> CantidadDeSueños
-sueños (_, _, sueñosPersona, _, _) = sueñosPersona
-
-felicidonios :: Persona -> Felicidonios
-felicidonios (_, _, _, felicidoniosPersona, _) = felicidoniosPersona
-
-habilidades  :: Persona -> Habilidades
-habilidades (_, _, _, _, habilidadesPersona) = habilidadesPersona
-
----------------------------------------------Casos de prueba--------------------------------------------------
+---------------------------------------------Casos de prueba------------------------------------------------
 evangelina :: Persona
-evangelina = ("Evangelina", 25, 2, 101, ["Pintura"])
+evangelina = Persona "Evangelina" 25 2 101 ["Pintura"]
 
 maximiliano :: Persona
-maximiliano = ("Maximiliano", 26, 2, 100, ["Ser buena persona"])
+maximiliano = Persona "Maximiliano" 26 2 100 ["Ser buena persona"]
 
 ariel :: Persona
-ariel = ("Ariel", 30, 1, 50, ["Decir palíndromos"])
+ariel = Persona "Ariel" 30 1 50 ["Decir palíndromos"]
 
 melina :: Persona
-melina = ("Melina", 17, 1, 14, ["Levantar una ceja"])
+melina = Persona "Melina" 17 1 14 ["Levantar una ceja"]
 
 tomas :: Persona
-tomas = ("Tomas", 19, 3, 12, ["Natación"])
+tomas = Persona "Tomas" 19 3 12 ["Natación"]
 
 -----------------------------------------------(Punto 1)----------------------------------------------------
 muyFeliz :: Persona -> Bool
@@ -85,32 +70,20 @@ esNombreLindo = (=='a') . last . nombre
 
 -----------------------------------------------(Punto 3)----------------------------------------------------
 --Funciones Auxiliares
-agregarFelicidonios :: Felicidonios -> Persona -> Persona
-agregarFelicidonios numero persona = (
-    nombre persona,
-    edad persona,
-    sueños persona,
-    felicidonios persona + numero,
-    habilidades persona
-    )
+agregarFelicidonios :: Int -> Persona -> Persona
+agregarFelicidonios numero persona = persona {
+    felicidonios = felicidonios persona + numero
+}
 
 agregarHabilidad :: String -> Persona -> Persona
-agregarHabilidad habilidad persona = (
-    nombre persona,
-    edad persona,
-    sueños persona,
-    felicidonios persona,
-    habilidad : habilidades persona
-    )
+agregarHabilidad habilidad persona = persona {
+    habilidades = habilidad : habilidades persona
+}
 
 envejecer :: Persona -> Persona
-envejecer persona = (
-    nombre persona,
-    edad persona + 1,
-    sueños persona,
-    felicidonios persona,
-    habilidades persona
-    )
+envejecer persona = persona {
+    edad = edad persona + 1
+}
 
 sueño :: (Persona -> Persona) -> Int -> Persona -> Persona
 sueño funcion numero = funcion . agregarFelicidonios numero
