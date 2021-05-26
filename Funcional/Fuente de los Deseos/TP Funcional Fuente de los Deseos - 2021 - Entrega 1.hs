@@ -24,36 +24,25 @@ tomas :: Persona
 tomas = Persona "Tomas" 19 3 12 ["Natación"]
 
 -----------------------------------------------(Punto 1)----------------------------------------------------
-muyFeliz :: Persona -> Bool
-muyFeliz = (>100) . felicidonios
-
-moderadamenteFeliz :: Persona -> Bool
-moderadamenteFeliz = (>50) . felicidonios 
-
-pocoFeliz :: Persona -> Bool
-pocoFeliz = (>0) . felicidonios
-
 funcionAuxiliar :: (Persona -> Int) -> (Persona -> Int) -> (Persona -> Int) -> (Int -> Int -> Int) -> Persona -> Int
 funcionAuxiliar funcion1 funcion2 funcion3 funcion4 persona
-    | muyFeliz persona           = funcion1 persona * funcion2 persona
-    | moderadamenteFeliz persona = funcion1 persona * funcion3 persona
-    | pocoFeliz persona          = funcion4 (funcion1 persona) 2
+    | muyFeliz           = multiplicar funcion1 funcion2
+    | moderadamenteFeliz = multiplicar funcion1 funcion3
+    | pocoFeliz          = funcion4 (funcion1 persona) 2
+
+    where
+        muyFeliz = (>100) . felicidonios $ persona
+        moderadamenteFeliz = (>50) . felicidonios $ persona
+        pocoFeliz = (>0) . felicidonios $ persona
+        multiplicar f1 f2 = f1 persona * f2 persona
 
 --(a)
 coeficienteDeSatisfaccion :: Persona -> Int
 coeficienteDeSatisfaccion = funcionAuxiliar felicidonios edad sueños div
---coeficienteDeSatisfaccion persona
---  | muyFeliz persona =           felicidonios persona * edad persona
---  | moderadamenteFeliz persona = felicidonios persona * sueños persona
---  | pocoFeliz persona =          div (felicidonios persona) 2
 
 --(b)
 gradoDeAmbicion :: Persona -> Int
 gradoDeAmbicion = funcionAuxiliar sueños felicidonios edad (*)
---gradoDeAmbicion persona
---  | muyFeliz persona =           sueños persona * felicidonios persona
---  | moderadamenteFeliz persona = sueños persona * edad persona
---  | pocoFeliz persona =          (*) (sueños persona) 2
 
 -----------------------------------------------(Punto 2)----------------------------------------------------
 --(a)
