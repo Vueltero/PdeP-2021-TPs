@@ -24,25 +24,28 @@ tomas :: Persona
 tomas = Persona "Tomas" 19 3 12 ["Natación"]
 
 -----------------------------------------------(Punto 1)----------------------------------------------------
-funcionAuxiliar :: (Persona -> Int) -> (Persona -> Int) -> (Persona -> Int) -> (Int -> Int -> Int) -> Persona -> Int
-funcionAuxiliar funcion1 funcion2 funcion3 funcion4 persona
-    | muyFeliz           = multiplicar funcion1 funcion2
-    | moderadamenteFeliz = multiplicar funcion1 funcion3
-    | pocoFeliz          = funcion4 (funcion1 persona) 2
+cantidadSegunTipoPersona :: (Persona -> Int) -> (Persona -> Int) -> (Persona -> Int) -> (Int -> Int -> Int) -> Persona -> Int
+cantidadSegunTipoPersona funcion1 funcion2 funcion3 operador persona
+    | muyFeliz           = caracteristicaPersona1 * caracteristicaPersona2
+    | moderadamenteFeliz = caracteristicaPersona1 * caracteristicaPersona3
+    | pocoFeliz          = operador (caracteristicaPersona1) 2
 
     where
         muyFeliz = (>100) . felicidonios $ persona
         moderadamenteFeliz = (>50) . felicidonios $ persona
         pocoFeliz = (>0) . felicidonios $ persona
-        multiplicar f1 f2 = f1 persona * f2 persona
+
+        caracteristicaPersona1 = funcion1 persona
+        caracteristicaPersona2 = funcion2 persona
+        caracteristicaPersona3 = funcion3 persona
 
 --(a)
 coeficienteDeSatisfaccion :: Persona -> Int
-coeficienteDeSatisfaccion = funcionAuxiliar felicidonios edad sueños div
+coeficienteDeSatisfaccion = cantidadSegunTipoPersona felicidonios edad sueños div
 
 --(b)
 gradoDeAmbicion :: Persona -> Int
-gradoDeAmbicion = funcionAuxiliar sueños felicidonios edad (*)
+gradoDeAmbicion = cantidadSegunTipoPersona sueños felicidonios edad (*)
 
 -----------------------------------------------(Punto 2)----------------------------------------------------
 --(a)
