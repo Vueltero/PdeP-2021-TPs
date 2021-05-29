@@ -77,24 +77,25 @@ envejecer persona = persona {
     edad = edad persona + 1
 }
 
-sueño :: (Persona -> Persona) -> Int -> Persona -> Persona
+type Sueño = Persona -> Persona
+
+sueño :: (Persona -> Persona) -> Int -> Sueño
 sueño funcion numero = funcion . agregarFelicidonios numero
 
 --Funciones Principales
-recibirseDeUnaCarrera :: String -> Persona -> Persona
+recibirseDeUnaCarrera :: String -> Sueño
 recibirseDeUnaCarrera carrera = sueño (agregarHabilidad carrera) (length carrera * 1000)
 
-viajarACiudades :: [String] -> Persona -> Persona
+viajarACiudades :: [String] -> Sueño
 viajarACiudades ciudades = sueño envejecer (length ciudades * 100)
 
-enamorarseDePersona :: Persona -> Persona -> Persona
+enamorarseDePersona :: Persona -> Sueño
 enamorarseDePersona = flip (sueño id . felicidonios)
---enamorarseDePersona enamorado persona = sueño id (felicidonios persona) enamorado
 
-queTodoSigaIgual :: Persona -> Persona
+queTodoSigaIgual :: Sueño
 queTodoSigaIgual = id
 
-comboPerfecto :: Persona -> Persona
+comboPerfecto :: Sueño
 comboPerfecto = sueño
     (recibirseDeUnaCarrera "Medicina" . viajarACiudades ["Berazategui", "París"])
     100
