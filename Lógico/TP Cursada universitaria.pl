@@ -1,3 +1,5 @@
+% Las Materias
+
 materia(analisis_Matematico_I, 5).
 materia(algebra_y_Geometria_Analitica, 5).
 materia(matematica_Discreta, 3).
@@ -94,27 +96,24 @@ correlativa(proyecto_Final, administracion_de_Recursos).
 correlativa(proyecto_Final, redes_de_Informacion).
 correlativa(proyecto_Final, ingenieria_de_Software).
 
-%Las_Materias
-
-%1
+% 1
 esPesada(Materia):-
-    materia(Materia, Horas),
-    integradora(Materia),
-    Horas == 6.
+    materia(Materia, 6),
+    integradora(Materia).
 
 esPesada(Materia):-
     materia(Materia, Horas),
     not(integradora(Materia)),
     Horas >= 4.
 
-%2
+% 2
 
-%A
+% A
 esMateriaInicial(Materia):-
     materia(Materia, _),
     not(correlativa(Materia, _)).
 
-%B
+% B
 correlativasMateria(Materia, CorrelativaDirecta):-
     correlativa(Materia, CorrelativaDirecta).
 
@@ -122,11 +121,12 @@ correlativasMateria(Materia, CorrelativaIndirecta):-
     correlativa(Materia, CorrelativaDirecta),
     correlativasMateria(CorrelativaDirecta, CorrelativaIndirecta).
 
-%C
+% C
 materiasQueHabilita(Materia, Habilita):- correlativasMateria(Habilita, Materia).
 
-%Lxs_Estudiantes
-%3
+% Lxs Estudiantes
+
+% 3
 curso(vero, Materia, 8, anual, 2019):- esMateriaInicial(Materia).
 curso(alan, sistemas_y_Organizaciones, 6, anual, 2018).
 curso(alan, analisis_Matematico_I, 6, anual, 2018).
@@ -163,37 +163,36 @@ rindioFinal(alan, sistemas_y_Organizaciones, 4).
 rindioFinalLibre(vero, ingles_II, 10).
 rindioFinalLibre(alan, ingles_I, 2).
 
-notaPorMateria(Estudiante, Materia, Nota):- curso(Estudiante, Materia, Nota, _, _).
+notaDeCursada(Estudiante, Materia, Nota):- curso(Estudiante, Materia, Nota, _, _).
 aprobo(Nota):- Nota > 5.
 promociono(Nota):- Nota > 7.
+aproboLibre(Estudiante, Materia):- rindioFinalLibre(Estudiante, Materia, Nota), aprobo(Nota).
 
-%A
+% A
 materiasCursadas(Estudiante, Materia):-
-    notaPorMateria(Estudiante, Materia, Nota),
+    notaDeCursada(Estudiante, Materia, Nota),
     aprobo(Nota).
 
 materiasCursadas(Estudiante, Materia):-
-    rindioFinalLibre(Estudiante, Materia, Nota),
-    aprobo(Nota).
+    aproboLibre(Estudiante, Materia).
 
-%B
+% B
 materiasAprobadas(Estudiante, Materia):-
     rindioFinal(Estudiante, Materia, Nota),
     aprobo(Nota).
 
-%Habría que preguntar si la cursó y aprobó
+% Habría que preguntar si la cursó y aprobó
 
 materiasAprobadas(Estudiante, Materia):-
-    rindioFinalLibre(Estudiante, Materia, Nota),
-    aprobo(Nota).
+    aproboLibre(Estudiante, Materia).
 
 materiasAprobadas(Estudiante, Materia):-
-    notaPorMateria(Estudiante, Materia, Nota),
+    notaDeCursada(Estudiante, Materia, Nota),
     promociono(Nota).
 
-%Modalidades
+% Modalidades
 
-%4
+% 4
 anioMateriaCursada(Estudiante, Materia, curso_de_Verano, Anio):-
     curso(Estudiante, Materia, _, curso_de_Verano, AnioCalendario),
     Anio is AnioCalendario - 1.
@@ -202,7 +201,7 @@ anioMateriaCursada(Estudiante, Materia, Modalidad, Anio):-
     curso(Estudiante, Materia, _, Modalidad, Anio),
     Modalidad \= curso_de_Verano.
 
-%5
+% 5
 materiasRecursadas(Estudiante, Materia):-
     curso(Estudiante, Materia, _, _, Anio1),
     curso(Estudiante, Materia, _, _, Anio2),
@@ -212,55 +211,56 @@ materiasRecursadas(Estudiante, Materia):-
     curso(Estudiante, Materia, _, cuatrimestral(1), Anio),
     curso(Estudiante, Materia, _, cuatrimestral(2), Anio).
 
-%Perfiles de estudiantes
+% Perfiles de estudiantes
+
+% 6
 
 estudiante(Estudiante):- curso(Estudiante, _, _, _, _).
 
-%6
-
-%A
-recursoMateriasSeguidas(Estudiante, cuatrimestral(1), cuatrimestral(2)):-
+% A
+recursoInmediatamente(Estudiante, cuatrimestral(1), cuatrimestral(2)):-
     anioMateriaCursada(Estudiante, Materia, cuatrimestral(1), Anio),
     anioMateriaCursada(Estudiante, Materia, cuatrimestral(2), Anio).
 
-recursoMateriasSeguidas(Estudiante, Modalidad1, Modalidad2):-
+recursoInmediatamente(Estudiante, Modalidad1, Modalidad2):-
     anioMateriaCursada(Estudiante, Materia, Modalidad1, Anio),
     anioMateriaCursada(Estudiante, Materia, Modalidad2, AnioSiguiente),
     AnioSiguiente is Anio + 1.
 
 sinDescanso(Estudiante):-
-    recursoMateriasSeguidas(Estudiante, cuatrimestral(1), cuatrimestral(2)).
+    recursoInmediatamente(Estudiante, cuatrimestral(1), cuatrimestral(2)).
 
 sinDescanso(Estudiante):-
-    recursoMateriasSeguidas(Estudiante, cuatrimestral(2), anual).
+    recursoInmediatamente(Estudiante, cuatrimestral(2), anual).
 
 sinDescanso(Estudiante):-
-    recursoMateriasSeguidas(Estudiante, anual, anual).
+    recursoInmediatamente(Estudiante, anual, anual).
 
 sinDescanso(Estudiante):-
-    recursoMateriasSeguidas(Estudiante, anual, cuatrimestral(1)).
+    recursoInmediatamente(Estudiante, anual, cuatrimestral(1)).
 
-%B
+% B
 invictus(Estudiante):-
     estudiante(Estudiante),
     not(materiasRecursadas(Estudiante, _)).
 
-%C
+% C
 repechaje(Estudiante):-
-   curso(Estudiante, Materia, Nota, anual, Anio),
-   not(aprobo(Nota)),
-   curso(Estudiante, Materia, Nota2, cuatrimestral(1), AnioSiguiente),
-   AnioSiguiente is Anio + 1,
-   promociono(Nota2).
+    curso(Estudiante, Materia, Nota, anual, Anio),
+    not(aprobo(Nota)),
+    curso(Estudiante, Materia, Nota2, cuatrimestral(1), AnioSiguiente),
+    AnioSiguiente is Anio + 1,
+    promociono(Nota2).
 
-%repechaje(Estudiante):-
-
-%D
+% D
 buenasCursadas(Estudiante):-
     estudiante(Estudiante),
-    forall(notaPorMateria(Estudiante, _, Nota), promociono(Nota)).
+    forall(
+        notaDeCursada(Estudiante, _, Nota),
+        promociono(Nota)
+        ).
 
-%E
+% E
 materiaNoCursadaEnVerano(Estudiante, Anio):-
     curso(Estudiante, _, _, Modalidad, Anio),
     Modalidad \= curso_de_Verano.
@@ -269,23 +269,15 @@ seLoQueHicisteElVeranoPasado(Estudiante):-
     estudiante(Estudiante),
     forall(
         materiaNoCursadaEnVerano(Estudiante, Anio),
-        anioMateriaCursada(Estudiante, _, curso_de_Verano, Anio)).
+        anioMateriaCursada(Estudiante, _, curso_de_Verano, Anio)
+        ).
 
-%Desempenio academico
+% Desempeño academico
 
-%8
+% 8
 
 anioPar(Anio):- 0 is Anio mod 2.
-
-calculoNota(Estudiante, Nota):-
-    curso(Estudiante, _, _, curso_de_Verano, Anio),
-    anioPar(Anio),
-    Nota == 5.
-
-calculoNota(Estudiante, Nota):-
-    curso(Estudiante, _, NotaCursada, curso_de_Verano, Anio),
-    not(anioPar(Anio)),
-    Nota is NotaCursada / 2.
+anioImpar(Anio):- not(anioPar(Anio)).
 
 calculoNota(Estudiante, Nota):-
     curso(Estudiante, _, Nota, anual, _).
@@ -293,6 +285,15 @@ calculoNota(Estudiante, Nota):-
 calculoNota(Estudiante, Nota):-
     curso(Estudiante, _, NotaCursada, cuatrimestral(Cuatrimestre), _),
     Nota is NotaCursada - Cuatrimestre.
+
+calculoNota(Estudiante, 5):-
+    curso(Estudiante, _, _, curso_de_Verano, Anio),
+    anioPar(Anio).
+
+calculoNota(Estudiante, Nota):-
+    curso(Estudiante, _, NotaCursada, curso_de_Verano, Anio),
+    anioImpar(Anio),
+    Nota is NotaCursada // 2.
 
 todasLasNotas(Estudiante, Notas):-
     estudiante(Estudiante),
